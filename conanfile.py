@@ -2,19 +2,9 @@ import os
 import shutil
 from conans import ConanFile, CMake, tools
 
-def get_version():
-    git = tools.Git()
-    try:
-        # Use long format so that semver interprets every version as a
-        # pre-release and hence they can be sorted in monotonic order as far as
-        # conan's version ranges are concerned.
-        return git.run("describe --tags --dirty --always --long").replace('/', '-')
-    except:
-        return None
-
 class PythonRequires(ConanFile):
     name = "conanbase"
-    version = get_version()
+    version = "1.0.0-nightly"
 
 def get_conanfile():
     class BaseConanFile(ConanFile):
