@@ -11,9 +11,15 @@ def get_conanfile():
         settings = "os", "compiler", "build_type", "arch"
         options = {"shared": [True, False]}
         default_options = "shared=False"
+        generators = "cmake_paths"
 
         def _configure_cmake(self):
             cmake = CMake(self)
+            conan_paths = os.path.join(self.build_folder, "conan_paths.cmake")
+            cmake.definitions["CONAN_PACKAGE_VERSION"] = self.version.split('-')[0]
+            cmake.definitions["CMAKE_FIND_PACKAGE_PREFER_CONFIG"] = "TRUE"
+            cmake.definitions["CMAKE_PROJECT_INCLUDE"] = conan_paths
+            cmake.generator = "Ninja"
             cmake.configure()
             return cmake
 
